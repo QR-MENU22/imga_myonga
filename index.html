@@ -1,113 +1,800 @@
-
+<!DOCTYPE html>
 <html lang="mn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAN CARLO PRO MODERN MENU</title>
-<style>
-body {margin:0;font-family:Arial,sans-serif;background:linear-gradient(180deg,#0f172a,#1e293b);color:white;}
-.header {text-align:center;padding:20px;font-size:28px;color:gold;font-weight:bold;}
-.tabs {display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:10px;}
-.tab {padding:8px 16px;background:#1e293b;border-radius:25px;cursor:pointer;font-size:15px;transition:0.3s;}
-.tab.active {background:gold;color:black;font-weight:bold;}
-.section {display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;padding:12px;}
-.card {background:#1e293b;border-radius:12px;overflow:hidden;box-shadow:0 0 8px rgba(0,0,0,0.5);transition:0.3s;cursor:pointer;}
-.card:hover {transform:scale(1.05);box-shadow:0 0 15px rgba(255,215,0,0.6);}
-.card img {width:100%;height:140px;object-fit:cover;}
-.card-content {display:flex;justify-content:space-between;padding:10px;font-size:14px;align-items:center;}
-button {background:gold;border:none;padding:5px 10px;border-radius:8px;cursor:pointer;transition:0.2s;}
-button:hover {background:#e6c200;}
-.cart-btn {position:fixed;right:15px;bottom:70px;background:gold;color:black;padding:12px;border-radius:50px;box-shadow:0 0 10px rgba(255,215,0,0.5);cursor:pointer;z-index:100;}
-.modal {position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;padding:20px;overflow:auto;z-index:1000;}
-.modal.active {display:block;}
-.admin {display:none;padding:15px;}
-.order {background:#1e293b;margin:10px 0;padding:10px;border-radius:10px;box-shadow:0 0 5px rgba(255,215,0,0.3);}
-select,input {padding:8px;width:100%;margin:5px 0;border-radius:6px;border:none;}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IMGA MYONGA | QR Menu</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Cormorant+Garamond:wght@600;700&display=swap');
+
+    :root {
+      --bg: #f6f1ea;
+      --bg-2: #efe5d8;
+      --card: rgba(255, 255, 255, 0.78);
+      --card-solid: #fffdf9;
+      --text: #261a12;
+      --muted: #7d6957;
+      --gold: #c9a35c;
+      --gold-2: #e1c48a;
+      --brown: #4b3424;
+      --brown-2: #70513a;
+      --line: rgba(75, 52, 36, 0.12);
+      --shadow: 0 18px 50px rgba(71, 45, 28, 0.12);
+      --hero-overlay: linear-gradient(180deg, rgba(20,13,9,0.18), rgba(20,13,9,0.48));
+    }
+
+    body.dark {
+      --bg: #120e0b;
+      --bg-2: #1b1511;
+      --card: rgba(33, 25, 20, 0.74);
+      --card-solid: #211914;
+      --text: #f7ecdf;
+      --muted: #c7b19c;
+      --gold: #ddb46a;
+      --gold-2: #9e773d;
+      --brown: #f2dfca;
+      --brown-2: #d9bc96;
+      --line: rgba(221, 180, 106, 0.14);
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+      --hero-overlay: linear-gradient(180deg, rgba(12,9,7,0.28), rgba(12,9,7,0.72));
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(201,163,92,0.22), transparent 26%),
+        radial-gradient(circle at 100% 0%, rgba(112,81,58,0.18), transparent 22%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      transition: 0.35s ease;
+    }
+
+    .container {
+      width: min(1180px, 92%);
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(18px);
+      background: rgba(255,255,255,0.05);
+      border-bottom: 1px solid var(--line);
+    }
+
+    body.dark .topbar {
+      background: rgba(10, 8, 7, 0.38);
+    }
+
+    .topbar-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 14px 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 54px;
+      height: 54px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--gold), var(--brown-2));
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .brand-copy h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 30px;
+      line-height: 0.95;
+      letter-spacing: 1px;
+      color: var(--brown);
+    }
+
+    .brand-copy p {
+      margin-top: 4px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .action-btn {
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--text);
+      padding: 11px 15px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13px;
+      transition: 0.25s ease;
+      box-shadow: var(--shadow);
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+    }
+
+    .action-btn.active {
+      background: linear-gradient(135deg, var(--gold), var(--brown-2));
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .hero {
+      padding: 28px 0 24px;
+    }
+
+    .hero-card {
+      position: relative;
+      min-height: 350px;
+      border-radius: 34px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      background:
+        var(--hero-overlay),
+        url('https://sspark.genspark.ai/cfimages?u1=JkRYzxm%2BdjYUztuwYVqxKJW1jFh18ieH29x%2FcqZ6v1RhujpjfWVOarcL9w1mZzIiTeinU61zxilSTK991yiXPjpnd7I58q4MLlHaI6kMKfxRyAeRrdgZgE35SdrnFfnMjbw2vw%3D%3D&u2=RqRpN0uQ%2BcNRa7q0&width=2560') center/cover no-repeat;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      padding: 34px;
+      color: #fff7ef;
+    }
+
+    .hero-chip {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.10);
+      backdrop-filter: blur(12px);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .hero-title {
+      font-family: "Cormorant Garamond", serif;
+      font-size: clamp(36px, 6vw, 64px);
+      line-height: 0.94;
+      max-width: 720px;
+      margin-bottom: 12px;
+      text-shadow: 0 10px 20px rgba(0,0,0,0.26);
+    }
+
+    .hero-desc {
+      max-width: 680px;
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(255,247,239,0.88);
+    }
+
+    .menu-shell {
+      padding-bottom: 36px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 38px;
+      color: var(--brown);
+    }
+
+    .section-head p {
+      color: var(--muted);
+      font-size: 14px;
+      max-width: 560px;
+      line-height: 1.7;
+      text-align: right;
+    }
+
+    .category-wrap {
+      position: sticky;
+      top: 94px;
+      z-index: 50;
+      padding-bottom: 16px;
+      background: linear-gradient(180deg, rgba(0,0,0,0), rgba(0,0,0,0));
+    }
+
+    .category-tabs {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+
+    .category-tabs::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .category-tabs::-webkit-scrollbar-thumb {
+      background: var(--gold-2);
+      border-radius: 999px;
+    }
+
+    .tab-btn {
+      min-width: fit-content;
+      border: 1px solid var(--line);
+      background: var(--card);
+      color: var(--text);
+      border-radius: 18px;
+      padding: 14px 18px;
+      cursor: pointer;
+      transition: 0.25s ease;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      align-items: flex-start;
+    }
+
+    .tab-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(201,163,92,0.20), rgba(112,81,58,0.20));
+      border-color: rgba(201,163,92,0.45);
+    }
+
+    body.dark .tab-btn.active {
+      background: linear-gradient(135deg, rgba(221,180,106,0.16), rgba(112,81,58,0.24));
+      border-color: rgba(221,180,106,0.32);
+    }
+
+    .tab-title {
+      font-weight: 800;
+      font-size: 14px;
+    }
+
+    .tab-sub {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .menu-info-bar {
+      margin: 12px 0 20px;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .menu-info-bar h3 {
+      font-size: 24px;
+      color: var(--brown);
+      font-family: "Cormorant Garamond", serif;
+    }
+
+    .menu-info-bar p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .menu-card {
+      border-radius: 26px;
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      transition: 0.3s ease;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-6px);
+    }
+
+    .menu-image-wrap {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+    }
+
+    .menu-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.02);
+      transition: 0.45s ease;
+    }
+
+    .menu-card:hover .menu-image-wrap img {
+      transform: scale(1.08);
+    }
+
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.36));
+    }
+
+    .dish-chip {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      z-index: 2;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
+
+    .menu-content {
+      padding: 18px 18px 20px;
+    }
+
+    .dish-ko {
+      display: block;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--brown);
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .dish-mn {
+      display: block;
+      font-size: 14px;
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .dish-note {
+      color: var(--text);
+      opacity: 0.9;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .lux-line {
+      width: 64px;
+      height: 2px;
+      margin: 16px 0 12px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+
+    .footer {
+      padding: 10px 0 34px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-location {
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .location-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--gold), var(--brown-2));
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.12);
+      transition: 0.25s ease;
+    }
+
+    .location-link:hover {
+      transform: translateY(-2px) scale(1.02);
+      opacity: 0.95;
+    }
+
+    .location-icon-svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 900px) {
+      .section-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .section-head p {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .topbar-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .hero-card {
+        min-height: 300px;
+        border-radius: 24px;
+      }
+
+      .hero-content {
+        padding: 22px;
+      }
+
+      .hero-title {
+        font-size: 40px;
+      }
+
+      .section-head h2 {
+        font-size: 30px;
+      }
+
+      .menu-image-wrap {
+        height: 190px;
+      }
+
+      .category-wrap {
+        top: 132px;
+      }
+    }
+  </style>
 </head>
-<body>
+<body class="dark">
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="brand-mark">金</div>
+        <div class="brand-copy">
+          <h1>IMGA MYONGA</h1>
+          <p id="brandTagline">Luxury Korean Dining • QR Menu</p>
+        </div>
+      </div>
 
-<div class="header">SAN CARLO PRO MODERN MENU</div>
+      <div class="actions">
+        <button class="action-btn active" id="langBtn">MN</button>
+        <button class="action-btn" id="themeBtn">🌙 Dark</button>
+      </div>
+    </div>
+  </header>
 
-<div class="tabs">
-<div class="tab active" onclick="showTab('food',event)">🍔 Хоол</div>
-<div class="tab" onclick="showTab('alcohol',event)">🥃 Алкохол</div>
-<div class="tab" onclick="showTab('soft',event)">🥤 Soft Drink</div>
-<div class="tab" onclick="openAdmin()">💻 Admin</div>
-</div>
+  <main class="container">
+    <section class="hero">
+      <div class="hero-card">
+        <div class="hero-content">
+          <span class="hero-chip" id="heroChip">QR MENU</span>
+          <h2 class="hero-title" id="heroTitle">Luxury Korean Taste</h2>
+          <p class="hero-desc" id="heroDesc">
+            IMGA MYONGA рестораны цэсийг илүү тансаг, зурагтай, premium хэв маягаар харуулах QR menu.
+          </p>
+        </div>
+      </div>
+    </section>
 
-<div id="food" class="section"></div>
-<div id="alcohol" class="section" style="display:none"></div>
-<div id="soft" class="section" style="display:none"></div>
+    <section class="menu-shell">
+      <div class="section-head">
+        <div>
+          <h2 id="sectionTitle">Манай Цэс</h2>
+        </div>
+        <p id="sectionDesc">
+          Доорх 4 ангиллаас сонгоод хоолнуудаа харна уу.
+        </p>
+      </div>
 
-<div class="cart-btn" onclick="openCart()">🛒</div>
+      <div class="category-wrap">
+        <div class="category-tabs" id="categoryTabs"></div>
+      </div>
 
-<div id="cartModal" class="modal">
-<h2>Захиалга</h2>
-<div id="cartItems"></div>
-<h3 id="total">0₮</h3>
-<select id="table">
-<option>1</option><option>2</option><option>3</option><option>4</option>
-<option>5</option><option>6</option><option>7</option><option>8</option>
-<option>9</option><option>10</option><option>11</option><option>12</option>
-<option>VIP1</option><option>VIP2</option><option>VIP3</option>
-</select>
-<button onclick="saveOrder()">Захиалах</button>
-<button onclick="closeCart()">Хаах</button>
-</div>
+      <div class="menu-info-bar">
+        <h3 id="currentCategoryTitle">Шарсан / Үндсэн хоол</h3>
+        <p id="currentCategoryDesc">Luxury presentation • Korean signature dishes</p>
+      </div>
 
-<div id="admin" class="admin">
-<h2>ADMIN</h2>
-<button onclick="loadOrders()">Refresh</button>
-<button onclick="clearOrders()">Clear</button>
-<div id="orders"></div>
-</div>
+      <div class="menu-grid" id="menuGrid"></div>
+    </section>
 
-<div id="login" class="modal">
-<h2>ADMIN НЭВТРЭХ</h2>
-<input type="password" id="pass" placeholder="Password">
-<button onclick="login()">OK</button>
-</div>
+    <footer class="footer">
+      <div id="footerText">
+        © 2026 IMGA MYONGA • Luxury Korean Restaurant QR Menu
+      </div>
 
-<script>
-let ADMIN_PASSWORD="1003";
-let cart=[];
+      <div class="footer-location">
+        <a
+          href="https://maps.app.goo.gl/ygoCM7SmLLCG3GXc9"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="location-link"
+          id="locationLink"
+        >
+          <svg class="location-icon-svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 21s7-5.686 7-11a7 7 0 1 0-14 0c0 5.314 7 11 7 11Z" stroke="white" stroke-width="2"/>
+            <circle cx="12" cy="10" r="2.5" fill="white"/>
+          </svg>
+          <span id="locationText">Байршил харах</span>
+        </a>
+      </div>
+    </footer>
+  </main>
 
-// FOODS
-let foods=["pizza","burger","steak","fried chicken","ramen","fries","salad"];
-let foodDiv=document.getElementById('food');
-foods.forEach(f=>{
- foodDiv.innerHTML+=`<div class='card'><img src='https://source.unsplash.com/400x300/?${f}'><div class='card-content'>${f} 20000₮ <button onclick="add('${f}',20000)">+</button></div></div>`;
-});
+  <script>
+    const images = {
+      hero: "https://sspark.genspark.ai/cfimages?u1=JkRYzxm%2BdjYUztuwYVqxKJW1jFh18ieH29x%2FcqZ6v1RhujpjfWVOarcL9w1mZzIiTeinU61zxilSTK991yiXPjpnd7I58q4MLlHaI6kMKfxRyAeRrdgZgE35SdrnFfnMjbw2vw%3D%3D&u2=RqRpN0uQ%2BcNRa7q0&width=2560",
+      samgyeopsal: "https://sspark.genspark.ai/cfimages?u1=JkRYzxm%2BdjYUztuwYVqxKJW1jFh18ieH29x%2FcqZ6v1RhujpjfWVOarcL9w1mZzIiTeinU61zxilSTK991yiXPjpnd7I58q4MLlHaI6kMKfxRyAeRrdgZgE35SdrnFfnMjbw2vw%3D%3D&u2=RqRpN0uQ%2BcNRa7q0&width=2560",
+      bulgogi: "https://sspark.genspark.ai/cfimages?u1=PkabybNBm3n54I0oYqB7JHUSA38AKwPnHnEFiK39XkV7ANxfoa7enc3QdmCMQbZ8mNrSbf51cBDfpWkvRBQNrHbGK3nTeRcuehAlz3k2pS%2BJZJNdH%2FDEyaOD98Za&u2=2%2BAYXHy5Kku%2BLQpf&width=2560",
+      galbitang: "https://sspark.genspark.ai/cfimages?u1=paLOYbmiv43bidnrgQ%2FU12RVy3vWyVJ6S5oSBurbxCjal0WTO1Lx50F8JC90ju8vlezq8r7jTjOykxmRpMgo%2B2kt503fAPI2QkGEevvCs6dlBw%2BJjITb6%2FYCWB%2BdO9Mn&u2=6yzjVbt5HHRdP%2FVE&width=2560",
+      kimchi: "https://sspark.genspark.ai/cfimages?u1=UUr4%2BbJyhAeh%2FqXc%2BUvvuQ9R2WijFR7p4%2FH%2F%2F8dZ0tdcBL5RWPG%2B3cAyn63as9gDW1ZC%2FOpaYQ%2BTj0XlwS2VJh%2Fu7SEF2Yq%2BbECbOhrpRSwCqTlxGsip%2Bx4kc5Wm97rWkheGWQ%3D%3D&u2=iYQbXowd5Wyxqo4V&width=2560",
+      bibimbap: "https://sspark.genspark.ai/cfimages?u1=pN7aw9D%2BGN10gCaY6hwLxKX9cEuNHVqP%2Bhqohd20VYVnLVR7ffdIJaoIripD%2FDDZkUwB6RbKelPHyazt3lOc0gUz0R6XDBTx9UQH%2FzwsdRMWZicdYYTdWR6Y4Jq0rJxHgN4%3D&u2=HfJx7HKt1R1vF%2F68&width=2560",
+      tteokbokki: "https://sspark.genspark.ai/cfimages?u1=tFAuvrgOCO0DzScFEnGFuuwWbx4G888wa%2BYsAMnGnGzKFSklb2yCveY3lB77CXSatabPjepSG8SnXNm%2FHnZGgfOHayAEIK8AJLhXB9iJB9BFzhwunFcBIE7hln%2BYLamPoRSG&u2=bs9iM%2B8jz%2FZ5Km%2BY&width=2560",
+      naengmyeon: "https://sspark.genspark.ai/cfimages?u1=SXjjuvcgwow3N0KdMO3H%2F9aMMFKEV6HWeyTeDonOA81G%2FN5ERQnSCa3iNGBw3vn2XifHyi8ShPZH5hMaHbz%2FTHBn7xmI5X7zk2imyqiqNIl1aU3uq2Mk8i%2Bqs4OCdL%2FGHjHhkXA%3D&u2=sRXl07JBs0NT%2BGm0&width=2560",
+      drink: "https://sspark.genspark.ai/cfimages?u1=ePjGlwvTjq5UAHweBfKl%2FRzdbcA1gccyD6U1u%2BoYfbaZAxjeUBubQFAXjjNE2WZSjinZecBD6wrcVje4I2JsEhkPiLtRHo860QT27BSfPPrVW8O1ffq0VppCyo7YEQ%3D%3D&u2=nyGGtjPR%2FxQOVETZ&width=2560"
+    };
 
-// ALCOHOL 26
-let alcohols=["whiskey","vodka","beer","wine","tequila","rum","gin","soju","cocktail","chivas","jack","jameson","hennessy","martell","baileys","jager","malibu","campari","aperol","kahlua","sambuca","heineken","corona","guinness","asahi","budweiser"];
-let alcoholDiv=document.getElementById('alcohol');
-alcohols.forEach(a=>{
- alcoholDiv.innerHTML+=`<div class='card'><img src='https://source.unsplash.com/400x300/?${a}'><div class='card-content'>${a} 12000₮ <button onclick="add('${a}',12000)">+</button></div></div>`;
-});
+    const menuData = {
+      grill: [
+        { ko: "삼겹살 한판", mn: "Самгёбсал Ханпан ", noteMn: "Гахайн цорой мах Жигнэсэн өндөг, шар буурцагын шөл, бяслагтай эрдэнэ шиш, пүнтүүзтэй хачир.", noteEn: "Signature grilled pork belly platter.", img: images.samgyeopsal },
+        { ko: "돼지 물갈비", mn: "Тэжи Мүл Калби", noteMn: "Жигнэсэн өндөг, шар буурцагын шөл бяслагтай эрдэнэ шиш, пүнтүүзтэй хачир.", noteEn: "Specialty pork rib dish with rich seasoning.", img: images.samgyeopsal },
+        { ko: "소불고기 전골", mn: "Сү Бүлгүги Жонгүл", noteMn: "Үхрийн махтай bulgogi төрлийн premium set.", noteEn: "Premium beef bulgogi hotpot-style dish.", img: images.bulgogi },
+        { ko: "소갈비찜 ", mn: "Су Калбижим", noteMn: "Канжан соустай хуурсан гахайн мах.", noteEn: "Stir-fried pork in soy-based sauce.", img: images.bulgogi },
+        { ko: "간장 돼지 갈비찜", mn: "Канжан Тэжи Калбижим", noteMn: "Гочужантай халуун ногоотой хуурсан мах.", noteEn: "Spicy stir-fried pork with gochujang.", img: images.bulgogi },
+        { ko: "매콤 돼지 갈비찜", mn: "Мэкум Тэжи Калбижим", noteMn: "Гочужантай халуун ногоотой хуурсан мах.", noteEn: "Spicy stir-fried pork with gochujang.", img: images.bulgogi },
+      ],
+      soup: [
+         { ko: "소갈비찜", mn: "Су Калбижим", noteMn: "Тахианы махтай халуун, амтлаг specialty хоол.", noteEn: "Savory braised chicken specialty.", img: images.bulgogi },
+        { ko: "물냉면", mn: "Мүл Нэнмён", noteMn: "Зөөлөн жигнэсэн тахианы premium хоол.", noteEn: "Premium braised chicken dish.", img: images.bulgogi },
+        { ko: "비빔냉면", mn: "Бибим Ненмён", noteMn: "Амталсан тахианы махтай classic main dish.", noteEn: "Classic marinated chicken main dish.", img: images.bulgogi },
+        { ko: "소갈비찜", mn: "Сү Калбижим", noteMn: "Үхрийн хавиргатай зөөлөн жигнэсэн specialty dish.", noteEn: "Tender braised beef rib specialty.", img: images.galbitang },
+        { ko: "간장 돼지 갈비찜", mn: "Канжан Тэжи Калбижим", noteMn: "Канжан соустай гахайн хавирганы хоол.", noteEn: "Braised pork ribs in soy-based sauce.", img: images.galbitang },
+        { ko: "매콤 돼지 갈비찜", mn: "Мэкум Тэжи Калбижим", noteMn: "Халуун ногоотой гахайн хавирганы хоол.", noteEn: "Spicy braised pork rib dish.", img: images.kimchi },
+        { ko: "장터국밥", mn: "Жанто Күгбаб", noteMn: "Солонгос маягийн халуун шөлтэй будаа.", noteEn: "Korean hot soup with rice.", img: images.galbitang },
+        { ko: "제육국밥", mn: "Жэюүг Күгбаб", noteMn: "Махтай, халуун, тэжээллэг шөлтэй будаа.", noteEn: "Hearty meat soup served with rice.", img: images.kimchi },
+        { ko: "김치찌개", mn: "Кимчижигэ", noteMn: "Кимчитэй халуун, classic Korean stew.", noteEn: "Classic hot Korean kimchi stew.", img: images.kimchi },
+        { ko: "된장찌개", mn: "Тэнжанжигэ", noteMn: "Тэнжан амттай уламжлалт шөл.", noteEn: "Traditional soybean paste stew.", img: images.kimchi },
+        { ko: "갈비탕", mn: "Калбитан", noteMn: "Үхрийн хавиргатай цэвэрхэн амттай шөл.", noteEn: "Clean and rich beef short rib soup.", img: images.galbitang },
+        { ko: "뚝배기 불고기", mn: "Дүгбэги Бүлгоги", noteMn: "Халуун чулуун саванд хийсэн бүлгоги.", noteEn: "Hot stone pot bulgogi.", img: images.bulgogi },
+        { ko: "부대찌개", mn: "Бүдэжигэ", noteMn: "Баялаг орцтой өтгөн шөл.", noteEn: "Rich and hearty Korean army stew.", img: images.kimchi },
+        { ko: "어묵탕", mn: "Омүгтан", noteMn: "Омүк орцтой зөөлөн амттай халуун шөл.", noteEn: "Warm fish cake soup.", img: images.galbitang },
+        { ko: "감자탕", mn: "Камжатан", noteMn: "Төмстэй, баялаг амттай Korean soup.", noteEn: "Rich Korean soup with potato.", img: images.galbitang }
+      ],
+      rice: [
+        { ko: "물냉면", mn: "Мүл Нэнмён", noteMn: "Хүйтэн шөлтэй сэрүүхэн гоймон.", noteEn: "Refreshing cold noodle soup.", img: images.naengmyeon },
+        { ko: "비빔냉면", mn: "Бибим Нэнмён", noteMn: "Халуун соустай хүйтэн гоймон.", noteEn: "Spicy mixed cold noodles.", img: images.naengmyeon },
+        { ko: "공기밥", mn: "Будаа", noteMn: "Цэвэр агшаасан будаа.", noteEn: "Steamed rice.", img: images.bibimbap },
+        { ko: "돌솥비빔밥", mn: "Түлсут Бибимбаб", noteMn: "Халуун чулуун савтай бибимбаб.", noteEn: "Stone pot bibimbap.", img: images.bibimbap },
+        { ko: "비빔밥", mn: "Бибимбаб", noteMn: "Ногоо, соустай хольж иддэг будаа.", noteEn: "Mixed rice with vegetables and sauce.", img: images.bibimbap },
+        { ko: "떡볶이", mn: "Догбүгги", noteMn: "Солонгос rice cake төрлийн classic side dish.", noteEn: "Classic Korean rice cake side dish.", img: images.tteokbokki },
+        { ko: "로제 떡볶이", mn: "Лүжэ Догбүгги", noteMn: "Creamy sauce-тай зөөлөн dogboggi.", noteEn: "Creamy rosé tteokbokki.", img: images.tteokbokki },
+        { ko: "불고기 김밥", mn: "Булгуги Кимбаб", noteMn: "Бүлгогитой roll төрлийн side menu.", noteEn: "Bulgogi kimbap roll.", img: images.bibimbap },
+        { ko: "야채 김밥", mn: "Ячэ Кимбаб", noteMn: "Шинэхэн ногоотой кимбаб.", noteEn: "Fresh vegetable kimbap.", img: images.bibimbap }
+      ],
+      drink: [
+        { ko: "COCA COLA", mn: "0.3L", noteMn: "Сэрүүцүүлэх soft drink.", noteEn: "Refreshing soft drink.", img: images.drink },
+        { ko: "FANTA", mn: "0.3L", noteMn: "Жимсний амттай soft drink.", noteEn: "Fruity soft drink.", img: images.drink },
+        { ko: "SPRITE", mn: "0.3L", noteMn: "Сэрүүн, хөнгөн хийжүүлсэн ундаа.", noteEn: "Light sparkling soft drink.", img: images.drink },
+        { ko: "GINGER ALE", mn: "0.3L", noteMn: "Зөөлөн ginger амттай ундаа.", noteEn: "Soft ginger-flavored drink.", img: images.drink },
+        { ko: "SODA WATER", mn: "0.3L", noteMn: "Хийжүүлсэн цэвэр ус.", noteEn: "Sparkling water.", img: images.drink },
+        { ko: "FUZETEA", mn: "0.2L", noteMn: "Tea төрлийн сэрүүцүүлэх ундаа.", noteEn: "Refreshing tea drink.", img: images.drink },
+        { ko: "MINUTE MAID", mn: "0.2L", noteMn: "Жүүс төрлийн soft drink.", noteEn: "Juice drink.", img: images.drink },
+        { ko: "BONAQUA", mn: "0.5L", noteMn: "Цэвэр савласан ус.", noteEn: "Pure bottled water.", img: images.drink }
+      ]
+    };
 
-// SOFT DRINK 24
-let softs=["cola","sprite","fanta","pepsi","juice","orange juice","apple juice","water","sparkling water","iced tea","lemon tea","milkshake","chocolate drink","energy drink","red bull","monster","latte","americano","cappuccino","espresso","mocha","smoothie","berry smoothie","mango juice"];
-let softDiv=document.getElementById('soft');
-softs.forEach(s=>{
- softDiv.innerHTML+=`<div class='card'><img src='https://source.unsplash.com/400x300/?${s}'><div class='card-content'>${s} 6000₮ <button onclick="add('${s}',6000)">+</button></div></div>`;
-});
+    const texts = {
+      mn: {
+        brandTagline: "Luxury Korean Dining • QR Menu",
+        heroChip: "QR MENU",
+        heroTitle: "Тансаг Солонгос Амт",
+        heroDesc: "IMGA MYONGA   ",
+        sectionTitle: "Манай Цэс",
+        sectionDesc: "Доорх 4 ангиллаас сонгоод хоолнуудаа харна уу.",
+        footerText: "© 2026 IMGA MYONGA • QR Menu",
+        footerLocation: "Байршил харах",
+        themeDark: "🌙 Dark",
+        themeLight: "☀️ Light",
+        langBtn: "MN",
+        categories: {
+          grill: { title: "Цогц цэс", sub: "" },
+          soup: { title: "Хоолны цэс", sub: "" },
+          rice: { title: "Нэгж цэс", sub: "" },
+          drink: { title: "Уух зүйл", sub: "" }
+        },
+        currentDesc: {
+          grill: "",
+          soup: "",
+          rice: "",
+          drink: ""
+        },
+        chip: {
+          grill: "Цогц цэс",
+          soup: "Хоолны цэс",
+          rice: "Нэгж цэс",
+          drink: "Уух зүйлс"
+        }
+      },
+      en: {
+        brandTagline: "Luxury Korean Dining • QR Menu",
+        heroChip: "QR MENU",
+        heroTitle: "Luxury Korean Taste",
+        heroDesc: "IMGA MYONGA",
+        sectionTitle: "Our Menu",
+        sectionDesc: "Browse through 4 refined categories.",
+        footerText: "© 2026 IMGA MYONGA • QR Menu",
+        footerLocation: "View Location",
+        themeDark: "🌙 Dark",
+        themeLight: "☀️ Light",
+        langBtn: "EN",
+        categories: {
+          grill: { title: "Set menu", sub: "" },
+          soup: { title: "Meal menu", sub: "" },
+          rice: { title: "Single menu", sub: "" },
+          drink: { title: "Soft Drinks", sub: "" }
+        },
+        currentDesc: {
+          grill: "",
+          soup: "",
+          rice: "",
+          drink: ""
+        },
+        chip: {
+          grill: "SIGNATURE",
+          soup: "SOUP",
+          rice: "SIDE",
+          drink: "DRINK"
+        }
+      }
+    };
 
-function add(n,p){cart.push({n,p});update();}
-function update(){let t=cart.reduce((s,i)=>s+i.p,0);document.getElementById('total').innerText=t+'₮';}
-function openCart(){document.getElementById('cartModal').classList.add('active');let h='';cart.forEach(i=>h+=`${i.n}-${i.p}₮<br>`);document.getElementById('cartItems').innerHTML=h;update();}
-function closeCart(){document.getElementById('cartModal').classList.remove('active');}
-function saveOrder(){let table=document.getElementById('table').value;let orders=JSON.parse(localStorage.getItem('orders')||'[]');orders.push({table,items:cart,time:new Date().toLocaleTimeString()});localStorage.setItem('orders',JSON.stringify(orders));alert('Захиалга амжилттай!');cart=[];closeCart();}
+    let currentLang = "mn";
+    let currentCategory = "grill";
 
-function showTab(t,e){['food','alcohol','soft'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById(t).style.display='grid';document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));e.target.classList.add('active');}
+    const categoryTabs = document.getElementById("categoryTabs");
+    const menuGrid = document.getElementById("menuGrid");
+    const langBtn = document.getElementById("langBtn");
+    const themeBtn = document.getElementById("themeBtn");
 
-function openAdmin(){document.getElementById('login').classList.add('active');}
-function login(){let pass=document.getElementById('pass').value;if(pass===ADMIN_PASSWORD){document.getElementById('login').classList.remove('active');document.getElementById('admin').style.display='block';loadOrders();} else {alert('Нууц үг буруу');}}
+    function renderTabs() {
+      const t = texts[currentLang];
+      const categories = ["grill", "soup", "rice", "drink"];
 
-function loadOrders(){let orders=JSON.parse(localStorage.getItem('orders')||'[]');let h='';orders.forEach(o=>{h+=`<div class='order'>Ширээ:${o.table}<br>${o.time}<br>${o.items.map(i=>i.n+'-'+i.p+'₮').join('<br>')}</div>`;});document.getElementById('orders').innerHTML=h;}
-function clearOrders(){if(confirm('Устгах уу?')){localStorage.removeItem('orders');loadOrders();}}
-</script>
+      categoryTabs.innerHTML = categories.map(cat => `
+        <button class="tab-btn ${currentCategory === cat ? 'active' : ''}" data-category="${cat}">
+          <span class="tab-title">${t.categories[cat].title}</span>
+          <span class="tab-sub">${t.categories[cat].sub}</span>
+        </button>
+      `).join("");
 
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          currentCategory = btn.dataset.category;
+          renderTabs();
+          renderCards();
+          renderCurrentCategoryInfo();
+        });
+      });
+    }
+
+    function renderCards() {
+      const t = texts[currentLang];
+      const list = menuData[currentCategory];
+
+      menuGrid.innerHTML = list.map(item => `
+        <article class="menu-card">
+          <div class="menu-image-wrap">
+            <img src="${item.img}" alt="${item.ko}" />
+            <div class="image-overlay"></div>
+            <span class="dish-chip">${t.chip[currentCategory]}</span>
+          </div>
+          <div class="menu-content">
+            <span class="dish-ko">${item.ko}</span>
+            <span class="dish-mn">${item.mn}</span>
+            <div class="lux-line"></div>
+            <p class="dish-note">${currentLang === "mn" ? item.noteMn : item.noteEn}</p>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function renderCurrentCategoryInfo() {
+      const t = texts[currentLang];
+      document.getElementById("currentCategoryTitle").textContent = t.categories[currentCategory].title;
+      document.getElementById("currentCategoryDesc").textContent = t.currentDesc[currentCategory];
+    }
+
+    function applyUI() {
+      const t = texts[currentLang];
+      document.documentElement.lang = currentLang;
+      document.getElementById("brandTagline").textContent = t.brandTagline;
+      document.getElementById("heroChip").textContent = t.heroChip;
+      document.getElementById("heroTitle").textContent = t.heroTitle;
+      document.getElementById("heroDesc").textContent = t.heroDesc;
+      document.getElementById("sectionTitle").textContent = t.sectionTitle;
+      document.getElementById("sectionDesc").textContent = t.sectionDesc;
+      document.getElementById("footerText").textContent = t.footerText;
+      document.getElementById("locationText").textContent = t.footerLocation;
+      langBtn.textContent = t.langBtn;
+      themeBtn.textContent = document.body.classList.contains("dark") ? t.themeDark : t.themeLight;
+      renderTabs();
+      renderCards();
+      renderCurrentCategoryInfo();
+    }
+
+    langBtn.addEventListener("click", () => {
+      currentLang = currentLang === "mn" ? "en" : "mn";
+      applyUI();
+    });
+
+    themeBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      applyUI();
+    });
+
+    applyUI();
+  </script>
 </body>
 </html>
